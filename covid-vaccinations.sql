@@ -55,7 +55,7 @@ create table covid.vaccinations(
 	excess_mortality_cumulative_per_million text
     );
 
-# import the sales data sample file 
+-- load data into 'vaccinations' table
 
 LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/owid-covid-vaccinations.csv'
 INTO TABLE covid.vaccinations
@@ -107,27 +107,31 @@ IGNORE 1 ROWS
            excess_mortality_cumulative_per_million = NULLIF(@excess_mortality_cumulative_per_million,'')
 ;
 
+-- data import validation test 
+
 select * from covid.vaccinations
 where location = 'Albania' and date = '3/30/2021'
 
--- join covid.deaths and covid.vaccines 
--- total population vs vaccinations 
+-- join covid.deaths and covid.vaccinations tables 
+-- total population vs vaccinations : shows percentage of population that has received at least one covid vaccination shot per country
+
 select a.continent, a.location, a.date, a.population, b.new_vaccinations, sum(b.new_vaccinations) over (partition by a.location order by a.location, str_to_date(a.date, '%m/%d/%Y')) as 'vaccination_running_total'
 from covid.deaths a 
 join covid.vaccinations b 
-on a.location = b.location 
-and a.date = b.date
+	on a.location = b.location 
+	and a.date = b.date
 where a.continent is not null and a.location = 'nigeria'
 order by a.location, str_to_date(a.date, '%m/%d/%Y')
 
--- use CTE 
+-- Using CTE to perform Calculation on Partition By in previous query (running total with Windows Function)
+
 with pop_vs_vac (continent, location, date, population, new_vaccinations, vaccination_running_total) as 
 (
 select a.continent, a.location, a.date, a.population, b.new_vaccinations, sum(b.new_vaccinations) over (partition by a.location order by a.location, str_to_date(a.date, '%m/%d/%Y')) as 'vaccination_running_total'
 from covid.deaths a 
 join covid.vaccinations b 
-on a.location = b.location 
-and a.date = b.date
+	on a.location = b.location 
+	and a.date = b.date
 where a.continent is not null and a.location = 'nigeria'
 order by a.location, str_to_date(a.date, '%m/%d/%Y')
 )
@@ -135,7 +139,7 @@ order by a.location, str_to_date(a.date, '%m/%d/%Y')
 select *, (cast(vaccination_running_total as float)/population)*100 as 'percentage_vaccinated' 
 from pop_vs_vac
 
--- create temp table 
+-- Using a Temp Table to perform Calculation on Partition By in previous query (running total with Windows Function)
 
 drop table if exists covid.population_vaxxed_perc
 
@@ -152,8 +156,8 @@ insert into covid.population_vaxxed_percentage
 select a.continent, a.location, a.date, a.population, b.new_vaccinations, sum(b.new_vaccinations) over (partition by a.location order by a.location, str_to_date(a.date, '%m/%d/%Y')) as 'vaccination_running_total'
 from covid.deaths a 
 join covid.vaccinations b 
-on a.location = b.location 
-and a.date = b.date
+	on a.location = b.location 
+	and a.date = b.date
 where a.continent is not null and a.location = 'nigeria'
 order by a.location, str_to_date(a.date, '%m/%d/%Y')
 
@@ -161,13 +165,14 @@ order by a.location, str_to_date(a.date, '%m/%d/%Y')
 select *, (cast(vaccination_running_total as float)/population)*100 as 'percentage_vaccinated'  
 from covid.population_vaxxed_percentage
 
--- create view 
+-- Creating View to store data for later visualizations
+
 create view covid.v_population_vaxxed_percentage as
 select a.continent, a.location, a.date, a.population, b.new_vaccinations, sum(b.new_vaccinations) over (partition by a.location order by a.location, str_to_date(a.date, '%m/%d/%Y')) as 'vaccination_running_total'
 from covid.deaths a 
 join covid.vaccinations b 
-on a.location = b.location 
-and a.date = b.date
+	on a.location = b.location 
+	and a.date = b.date
 where a.continent is not null and a.location = 'nigeria'
 order by a.location, str_to_date(a.date, '%m/%d/%Y')
 
