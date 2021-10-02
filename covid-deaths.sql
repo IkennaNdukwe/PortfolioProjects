@@ -138,7 +138,7 @@ order by str_to_date(date, '%m/%d/%Y'), daily_case_count_world
 
 -- global death rate summary
 
-select sum(new_cases) as 'daily_case_count_world', sum(new_deaths) as 'daily_death_count_world', (cast(sum(new_deaths) as float)/sum(new_cases))*100.00 as 'death_rate'
+select sum(new_cases) as 'total_cases', sum(new_deaths) as 'total_deaths', (cast(sum(new_deaths) as float)/sum(new_cases))*100.00 as 'death_rate'
 from covid.deaths
 where continent is not null 
 
