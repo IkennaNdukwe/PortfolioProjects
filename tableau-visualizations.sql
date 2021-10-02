@@ -1,3 +1,6 @@
+/*
+Queries used for Covid-19 Data Exploration Tableau Project
+*/
 
 -- total cases vs total deaths 
 -- death_rate shows likelihood of dying if covid is contracted
