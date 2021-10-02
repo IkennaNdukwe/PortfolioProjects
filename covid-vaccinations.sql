@@ -1,3 +1,12 @@
+/*
+Covid-19 Data Exploration 
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+Link to dataset: https://ourworldindata.org/covid-deaths
+MySQL 8.0 was used for this exploration.
+*/
+
+-- create 'vaccinations' table in the 'covid' database
+
 drop table if exists covid.vaccinations
     
 create table covid.vaccinations(
