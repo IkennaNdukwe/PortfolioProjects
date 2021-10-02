@@ -1,4 +1,4 @@
-drop table covid.deaths;
+drop table if exists covid.deaths;
 
 create table covid.deaths(
 	iso_code text, 
