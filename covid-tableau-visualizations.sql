@@ -25,3 +25,8 @@ order by population_infection_rate desc
 select location, date, population, max(total_cases) as 'total_infections', (cast(max(total_cases) as float)/population)*100 as 'population_infection_rate'  from covid.deaths
 where continent is not null -- and location = 'nigeria'
 group by location, population, date  
+
+/*
+Link to the visualization:
+https://public.tableau.com/app/profile/ikenna4609/viz/Covid-19DataExploration_16331981337110/Dashboard1?publish=yes
+*/
