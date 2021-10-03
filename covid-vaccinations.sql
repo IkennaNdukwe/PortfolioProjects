@@ -57,7 +57,7 @@ create table covid.vaccinations(
 
 -- load data into 'vaccinations' table
 
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/owid-covid-vaccinations.csv'
+LOAD DATA INFILE 'C://owid-covid-vaccinations.csv'
 INTO TABLE covid.vaccinations
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
