@@ -40,7 +40,7 @@ create table covid.deaths(
     );
   
 -- load data into 'deaths' table 
-LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/owid-covid-deaths.csv'
+LOAD DATA INFILE 'C://owid-covid-deaths.csv'
 INTO TABLE covid.deaths
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
