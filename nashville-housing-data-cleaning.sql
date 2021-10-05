@@ -1,3 +1,16 @@
+/* 
+
+Cleaning Data in SQL Queries
+
+Activities done: 
+1. Standardizing date format 
+2. Populate empty colums 
+3. Split column contents 
+4. Standardizing text colums (change Y and N to Yes and No) 
+5. Remove unused columns and duplicates 
+
+*/
+
 create schema housing_data
 
 drop table if exists `nashville housing data`
@@ -24,7 +37,7 @@ create table housing_data.`nashville housing data`(
 	HalfBath int
 ); 
 
-load data infile 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/Nashville Housing Data.csv'
+load data infile 'C://Nashville Housing Data.csv'
 into table housing_data.`nashville housing data`
 fields terminated by ','
 enclosed by '"'
