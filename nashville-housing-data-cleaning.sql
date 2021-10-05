@@ -227,6 +227,7 @@ where
 where row_num > 1
 )
 
+-- validate deletion of duplicate records
 select * from nashville_housing
 where uniqueid = '27111'
 
