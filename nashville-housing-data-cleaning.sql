@@ -183,6 +183,7 @@ create table nashville_housing(
 insert into nashville_housing
 select UniqueID, ParcelID, LandUse, Address, City, SaleDate, SalePrice, LegalReference, SoldAsVacant_st, OwnerName, OwnerAddress_split, OwnerCity_split, OwnerState_split, Acreage, TaxDistrict, LandValue, BuildingValue, TotalValue, YearBuilt, Bedrooms, FullBath, HalfBath 
 from `nashville housing data`
+where City like '%NASHVILLE%'
 
 select * from nashville_housing
 
