@@ -105,3 +105,5 @@ limit 10
 
 select max(saledate)
 from nashville_housing
+
+-- Dashboard link: https://public.tableau.com/app/profile/ikenna4609/viz/NashvilleHousingData_16338294980240/Dashboard1?publish=yes
