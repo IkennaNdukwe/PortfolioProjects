@@ -6,7 +6,7 @@ Activities done:
 1. Standardizing date format 
 2. Populate empty columns
 3. Split column contents 
-4. Standardizing text column (soldasvacant, landuse)
+4. Standardizing text columns (soldasvacant, landuse)
 5. Remove unused columns and duplicates 
 
 */
