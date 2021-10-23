@@ -4,9 +4,9 @@ Cleaning Data in SQL Queries
 
 Activities done: 
 1. Standardizing date format 
-2. Populate empty colums 
+2. Populate empty columns
 3. Split column contents 
-4. Standardizing text colums (change Y and N to Yes and No) 
+4. Standardizing text column (soldasvacant, landuse)
 5. Remove unused columns and duplicates 
 
 */
@@ -140,7 +140,8 @@ from `nashville housing data`
 
 alter table `nashville housing data` add soldasvacant_st text
 update `nashville housing data`
-set soldasvacant_st = (case 
+set soldasvacant_st = 
+(case 
 	when soldasvacant = 'N' then 'No'
 	when soldasvacant = 'Y' then 'Yes'
     else soldasvacant
@@ -151,14 +152,38 @@ alter table `nashville housing data` change soldasvacant_st SoldAsVacant_st text
 select * from `nashville housing data`
 where soldasvacant_st = 'Y'
 
+-- standardize LandUse column (vacant residential land = vacant res land = vacant resiential land) 
+select distinct(landuse), count(landuse)
+from `nashville housing data`
+group by landuse
+order by 1
+
+select landuse, 
+(case 
+	when landuse = 'VACANT RES LAND' then 'VACANT RESIDENTIAL LAND'
+	when landuse = 'VACANT RESIENTIAL LAND' then 'VACANT RESIDENTIAL LAND'
+    else landuse
+end) as landuse_st
+from `nashville housing data`
+
+alter table `nashville housing data` add landuse_st text
+
+update `nashville housing data`
+set landuse_st = 
+(case 
+	when landuse = 'VACANT RES LAND' then 'VACANT RESIDENTIAL LAND'
+	when landuse = 'VACANT RESIENTIAL LAND' then 'VACANT RESIDENTIAL LAND'
+    else landuse
+end) 
+
 -- remove duplicates and unused columns 
 -- create a new table to prevent modifying source data
 drop table if exists nashville_housing 
 
 create table nashville_housing( 
-	UniqueID text, 
+    UniqueID text, 
     ParcelID text, 
-    LandUse text, 
+    LandUse_st text, 
     Address text, 
     City text, 
     SaleDate date, 
@@ -181,9 +206,12 @@ create table nashville_housing(
 );
 
 insert into nashville_housing
-select UniqueID, ParcelID, LandUse, Address, City, SaleDate, SalePrice, LegalReference, SoldAsVacant_st, OwnerName, OwnerAddress_split, OwnerCity_split, OwnerState_split, Acreage, TaxDistrict, LandValue, BuildingValue, TotalValue, YearBuilt, Bedrooms, FullBath, HalfBath 
+select UniqueID, ParcelID, LandUse_st, Address, City, SaleDate, SalePrice, LegalReference, SoldAsVacant_st, OwnerName, OwnerAddress_split, OwnerCity_split, OwnerState_split, Acreage, TaxDistrict, LandValue, BuildingValue, TotalValue, YearBuilt, Bedrooms, FullBath, HalfBath 
 from `nashville housing data`
 where City like '%NASHVILLE%'
+
+-- rename column 
+alter table `nashville_housing` change landuse_st LandUse text
 
 select * from nashville_housing
 
@@ -207,7 +235,7 @@ from (
         order by UniqueID) as row_num 
 	from 
 		nashville_housing
-) t 
+) duplicates
 where row_num > 1
 
 /* 
@@ -224,11 +252,10 @@ where
         order by UniqueID) as row_num 
 	from 
 		nashville_housing
-	) t 
+	) duplicates 
 where row_num > 1
 )
 
--- validate deletion of duplicate records
 select * from nashville_housing
-where uniqueid = '27111'
+where uniqueid = '27114'
 
