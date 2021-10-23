@@ -55,7 +55,7 @@ order by saleyear
 -- 3. net profit margin per landuse (2013 - 2016)
 with npm_per_landuse as 
 (
-	select landuse, sum(saleprice), sum(totalvalue), ((sum(saleprice) - sum(totalvalue))/sum(saleprice))*100 as AnnualProfitMargin, count(saleyear) 
+	select landuse, sum(saleprice), sum(totalvalue), ((sum(saleprice) - sum(totalvalue))/sum(saleprice))*100 as AnnualProfitMargin, count(landuse) 
 	from nashville_housing
     group by landuse
 	order by AnnualProfitMargin
