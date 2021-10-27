@@ -86,5 +86,5 @@ set profit_margin_percentage = ((sales_amount - cost_price)/sales_amount) * 100.
 select * from transactions_details
 
 /*
-Tableau Dashboards : https://public.tableau.com/app/profile/ikenna4609/viz/AtliQSalesInsights_16353275193680/AtliQ-RevenueAnalysis
+Sales Dashboards : https://public.tableau.com/app/profile/ikenna4609/viz/AtliQSalesInsights_16353275193680/AtliQ-RevenueAnalysis
 */
