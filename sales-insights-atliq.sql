@@ -3,6 +3,7 @@ Data Cleaning and Analysis using SQL
 Activities done: 
 - Creating temp tables 
 - standardizing numeric and character columns 
+- case statements
 - altering tables
 
 Tableau Profile: https://public.tableau.com/app/profile/ikenna4609
