@@ -1,3 +1,13 @@
+/*
+Data Cleaning and Analysis using SQL
+Activities done: 
+- Creating temp tables 
+- standardizing numeric and character columns 
+- altering tables
+
+Tableau Profile: https://public.tableau.com/app/profile/ikenna4609
+*/
+
 use sales 
 
 select * from transactions
@@ -40,7 +50,7 @@ join date e
 on a.order_date = e.date
 where a.sales_amount >= 1 -- data cleaning 
 
--- normalize sales_amount and currency columns 
+-- standardize sales_amount and currency columns 
 alter table transactions_details add sales_amount_st double 
 alter table transactions_details add currency_st varchar(55) 
 
@@ -74,13 +84,6 @@ update transactions_details
 set profit_margin_percentage = ((sales_amount - cost_price)/sales_amount) * 100.00
 
 select * from transactions_details
-
--- export final table
-select * from transactions_details
-INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/atliq.csv'
-FIELDS TERMINATED BY ','
-OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n';
 
 /*
 Tableau Dashboards : https://public.tableau.com/app/profile/ikenna4609/viz/AtliQSalesInsights_16353275193680/AtliQ-RevenueAnalysis
